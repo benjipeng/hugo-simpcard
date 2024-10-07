@@ -4,7 +4,23 @@
   <body
     class="bg-neutral m-auto flex h-screen max-w-7xl flex-col px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-white"
   >
-    <main class="flex-grow">{{- block "main" . }}{{- end }}</main>
+    <main class="flex-grow">
+      <!-- <button id="theme-toggle">
+        {{ $icon := resources.Get "icons/moon.svg" }}
+        {{ if $icon }}
+          {{ $icon.Content | safeHTML }}
+        {{ end }}
+      </button> -->
+      {{- block "main" . }}{{- end }}
+      
+    </main>
     {{- partial "footer.html" . -}}
+    {{ $themeToggle := resources.Get "js/theme-toggle.js" | minify | fingerprint }}
+    <script src="{{ $themeToggle.RelPermalink }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+      });
+    </script>
   </body>
 </html>
